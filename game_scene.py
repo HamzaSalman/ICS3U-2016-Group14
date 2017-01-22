@@ -125,6 +125,8 @@ class GameScene(Scene):
         self.menu_button_created = False
         self.score = 0
         self.score_done = False
+        self.move_up_speed = 1.5
+        self.move_down_speed = 12
         
     
     def update(self):
@@ -170,6 +172,7 @@ class GameScene(Scene):
             json.dump(high_scores, high_score_file)
             high_score_file.close()
             self.highscore_label.text = 'Highscore: ' + str(self.high_score)
+            
 
     
     def touch_began(self, touch):
@@ -177,8 +180,8 @@ class GameScene(Scene):
         if self.play_button.frame.contains_point(touch.location) and self.dead == False:
             self.start_label.alpha = 0
             sound.play_effect('./assets/Sounds/Woosh_1.caf')
-            self.character.run_action(Action.sequence(Action.move_by(self.left_or_right,100,1.5),
-                                      Action.move_by(self.left_or_right_left,-2000,12)))
+            self.character.run_action(Action.sequence(Action.move_by(self.left_or_right,100,self.move_up_speed),
+                                      Action.move_by(self.left_or_right_left,-2000,self.move_down_speed)))
                                       
         if self.menu_button.frame.contains_point(touch.location):
             self.menu_button.scale = 0.48
